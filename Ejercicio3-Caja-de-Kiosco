@@ -1,0 +1,52 @@
+# 1)  Pedir nombre del cliente y validar que solo contenga letras y no esté vacío
+nombre = input("Cliente: ")
+while not nombre.isalpha() or nombre == "":
+    print("Error: El nombre debe contener solo letras y no estar vacío.")
+    nombre = input("Cliente: ")
+
+# 2) Pedir cantidad de productos (entero positivo > 0)
+cantidad_str = input("Cantidad de productos a comprar: ")
+while not cantidad_str.isdigit() or int(cantidad_str) <= 0:
+    print("Error: Ingrese un número entero positivo mayor a 0.")
+    cantidad_str = input("Cantidad de productos: ")
+
+cantidad = int(cantidad_str)
+total_sin_desc = 0.0
+total_con_desc = 0.0
+
+# 3) Procesamiento del producto
+for i in range(1, cantidad + 1):
+    print(f"\nProducto {i}")
+    
+    # Validar precio
+    precio_str = input("Precio: ")
+    while not precio_str.isdigit():
+        print("Error: Ingrese un precio válido (números).")
+        precio_str = input("Precio: ")
+    
+    precio = int(precio_str)
+    total_sin_desc += precio
+    
+    # Validar si tiene descuento (S/N)
+    tiene_desc = input("¿Tiene descuento? (S/N): ").lower()
+    while tiene_desc not in ['s', 'n']:
+        print("Error: Ingrese 'S' para sí o 'N' para no.")
+        tiene_desc = input("¿Tiene descuento? (S/N): ").lower()
+    
+    if tiene_desc == 's':
+        # Aplicar 10% de descuento
+        precio_final = precio * 0.90
+        total_con_desc += precio_final
+    else:
+        total_con_desc += precio
+
+# 4) Cálculos finales
+ahorro = total_sin_desc - total_con_desc
+promedio = total_con_desc / cantidad
+
+# Mostrar resultados formateados
+print("-" * 30)
+print(f"Total sin descuentos: ${total_sin_desc:.2f}")
+print(f"Total con descuentos: ${total_con_desc:.2f}")
+print(f"Ahorro total: ${ahorro:.2f}")
+print(f"Promedio por producto: ${promedio:.2f}")
