@@ -1,0 +1,74 @@
+
+# Paso 1: Configuración del Personaje
+nombre = input("Nombre del Gladiador: ")
+while not nombre.isalpha() or nombre == "":
+    print("Error: Solo se permiten letras.")
+    nombre = input("Nombre del Gladiador: ")
+
+# Paso 2: Inicialización de Estadísticas (Valores fijos)
+hp_gladiador = 100
+hp_enemigo = 100
+pociones = 3
+ataque_pesado_base = 15
+ataque_enemigo_base = 12
+juego_activo = True
+
+print("\n=== INICIO DEL COMBATE ===")
+
+# Paso 3: El Ciclo de Combate
+while hp_gladiador > 0 and hp_enemigo > 0:
+    print(f"\n{nombre} (HP: {hp_gladiador}) vs Enemigo (HP: {hp_enemigo}) | Pociones: {pociones}")
+    print("Elige acción:")
+    print("1. Ataque Pesado")
+    print("2. Ráfaga Veloz")
+    print("3. Curar")
+    
+    opcion = input("Opción: ")
+    
+    # Validación del Menú
+    while not opcion.isdigit() or opcion not in ["1", "2", "3"]:
+        print("Error: Ingrese un número válido (1, 2 o 3).")
+        opcion = input("Opción: ")
+    
+    # Lógica de las Acciones del Jugador
+    if opcion == "1":
+        # Acción A: Ataque Pesado
+        danio_final = float(ataque_pesado_base)
+        if hp_enemigo < 20:
+            danio_final = ataque_pesado_base * 1.5
+            print("¡GOLPE CRÍTICO!")
+        
+        hp_enemigo -= int(danio_final)
+        print(f"¡Atacaste al enemigo por {danio_final} puntos de daño!")
+
+    elif opcion == "2":
+        # Acción B: Ráfaga Veloz (Uso de for)
+        print(">> ¡Inicias una ráfaga de golpes!")
+        for i in range(3):
+            hp_enemigo -= 5
+            print("> Golpe conectado por 5 de daño")
+
+    elif opcion == "3":
+        # Acción C: Curar
+        if pociones > 0:
+            hp_gladiador += 30
+            if hp_gladiador > 100: hp_gladiador = 100
+            pociones -= 1
+            print(f"Te has curado. HP actual: {hp_gladiador}")
+        else:
+            print("¡No quedan pociones!")
+            # El turno se pierde, el enemigo atacará igual
+
+    # Turno del Enemigo (Solo si sigue vivo)
+    if hp_enemigo > 0:
+        hp_gladiador -= ataque_enemigo_base
+        print(f">> ¡El enemigo te atacó por {ataque_enemigo_base} puntos de daño!")
+    
+    print("=== NUEVO TURNO ===")
+
+# Paso 4: Fin del Juego
+print("\n---------------------------")
+if hp_gladiador > 0:
+    print(f"¡VICTORIA! {nombre} ha ganado la batalla.")
+else:
+    print("DERROTA. Has caído en combate.")
